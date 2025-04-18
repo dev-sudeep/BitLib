@@ -1,0 +1,1 @@
+ar rcs libbitlib.a ../obj/*.o
