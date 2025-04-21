@@ -5,6 +5,8 @@
 
 typedef long double ld;
 
+typedef struct {int x; int y;} Point; // Point structure for 2D coordinates
+
 #define PI 3.14159265358979323846
 
 #define PERCENT(x) (x/100)
@@ -98,6 +100,56 @@ typedef struct { Work work; Time time; } Power;                                 
 #define centi (1/100) *
 #define milli (1/1000) *
 #define micro (1/1000000) *
+
+#define candela 1
+#define ampere 1
+#define mole 1
+#define joule 1
+#define newton 1
+#define watt 1
+
+
+
+typedef struct{int b : 1} bit;
+typedef struct{int b0 : 1; b1 : 1; b2 : 1; b3 : 1; b4 : 1; b5 : 1; b6 : 1; b7 : 1;} byte;
+
+#define BIT(x) ((bit){ .b = (x) })
+#define setBIT(x, value) x.b = value
+
+/// @brief Calculates the value of a byte.
+/// @param b The byte to calculate the value of.
+/// @return An integer representing the value of the byte.
+/// @note This function uses bitwise operations to calculate the value of the byte.
+int valueOfByte(byte b) { // Returns the value of a byte.
+    int value = 0;
+    value += power(2, 0) * b.b0;
+    value += power(2, 1) * b.b1;
+    value += power(2, 2) * b.b2;
+    value += power(2, 3) * b.b3;
+    value += power(2, 4) * b.b4;
+    value += power(2, 5) * b.b5;
+    value += power(2, 6) * b.b6;
+    value += power(2, 7) * b.b7;
+    return value;
+}
+
+/// @brief Converts a character to its binary representation.
+/// @param num The character to convert.
+/// @return The binary representation of the character as a byte.
+/// @note This function uses bitwise operations to convert the character to binary.
+byte charInBinary(char num) { // Returns the number of bits in a number.
+    int val = num;
+    byte b;
+    b.b0 = (val & 0b10000000) >> 7;
+    b.b1 = (val & 0b01000000) >> 6;
+    b.b2 = (val & 0b00100000) >> 5;
+    b.b3 = (val & 0b00010000) >> 4;
+    b.b4 = (val & 0b00001000) >> 3;
+    b.b5 = (val & 0b00000100) >> 2;
+    b.b6 = (val & 0b00000010) >> 1;
+    b.b7 = val & 0b00000001;
+    return b;
+}
 
 /// @brief Calculates the power of a number.
 /// @param base The base of the exponentiation.
