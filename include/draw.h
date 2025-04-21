@@ -59,12 +59,34 @@ void draw_box(int x, int y, int w, int h, const char* ch) {
 
 // --- Draw a basic circle (text-based) ---
 void draw_circle(int cx, int cy, int r, const char* ch) {
-    for (int y = -r; y <= r; y++) {
-        for (int x = -r; x <= r; x++) {
-            if (x*x + y*y <= r*r)
-                draw_pixel(cx + x, cy + y, ch);
+    // Scale x coordinates by 2 to account for character aspect ratio
+    int x = r * 2;
+    int y = 0;
+    int err = 0;
+
+    while (x >= y) {
+        // Fill horizontal lines between symmetrical points
+        for (int i = -x/2; i <= x/2; i++) {
+            draw_pixel(cx + i, cy + y, ch);    // Fill bottom half
+            draw_pixel(cx + i, cy - y, ch);    // Fill top half
+        }
+        
+        // Fill the middle section
+        for (int i = -y/2; i <= y/2; i++) {
+            draw_pixel(cx + i, cy + x/2, ch);  // Fill right side
+            draw_pixel(cx + i, cy - x/2, ch);  // Fill left side
+        }
+
+        if (err <= 0) {
+            y += 1;
+            err += 2*y + 1;
+        }
+        if (err > 0) {
+            x -= 2;  // Decrease x by 2 to maintain aspect ratio
+            err -= 2*x + 2;
         }
     }
+
 }
 
 // --- Draw a line (Bresenham-style) ---

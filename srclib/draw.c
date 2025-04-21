@@ -58,9 +58,10 @@ void draw_box(int x, int y, int w, int h, const char* ch) {
 // --- Draw a basic circle (text-based) ---
 void draw_circle(int cx, int cy, int r, const char* ch) {
     for (int y = -r; y <= r; y++) {
-        for (int x = -r; x <= r; x++) {
+        for (int x = -r; x <= r; x += 2) {
             if (x*x + y*y <= r*r)
                 draw_pixel(cx + x, cy + y, ch);
+                draw_pixel(cx + x + 1, cy + y, ch);
         }
     }
 }
