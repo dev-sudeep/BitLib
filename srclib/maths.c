@@ -27,7 +27,9 @@ typedef struct { Length length; Time time; } Speed;                             
 typedef struct { Length length; Time time; Time time2; } Acceleration;                  // m/s²
 typedef struct { Mass mass; Acceleration acceleration; } Force;                         // newtons (kg·m/s²)
 typedef struct { Force force; Length displacement; } Work;                              // joules (N·m)
-typedef struct { Work work; Time time; } Power;                                         // watts (J/s)
+typedef struct { Work work; Time time; } Power;   
+
+typedef struct {ld numerator; ld denominator} fraction;                                  // watts (J/s)
 
 #define LENGTH(m)         ((Length){ .length = (m) })
 #define TIME(s)           ((Time){ .time = (s) })
@@ -108,7 +110,8 @@ typedef struct { Work work; Time time; } Power;                                 
 #define newton 1
 #define watt 1
 
-
+#define FRACTION(numerator, denominator) (fraction){numerator, denominator}
+#define FRACTION_VAL(fraction) (fraction)(.numerator/.denominator)
 
 typedef struct{int b : 1} bit;
 typedef struct{int b0 : 1; b1 : 1; b2 : 1; b3 : 1; b4 : 1; b5 : 1; b6 : 1; b7 : 1;} byte;
@@ -227,3 +230,9 @@ Area area_circle(Length radius){// Calculates the area of a circle.
     return result; // Area = PI * radius^2
 }
 
+/// @breif Calculates the reciprocal of a fraction
+/// @param f The fraction to calculate the reciprocal of
+/// @return The reciprocal of the fraction
+fraction reciprocal(fraction f){
+    return FRACTION(f.denominator, f.numerator);
+}

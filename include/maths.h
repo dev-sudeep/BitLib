@@ -33,7 +33,10 @@ typedef struct { Length length; Time time; } Speed;                             
 typedef struct { Length length; Time time; Time time2; } Acceleration;                  // m/s²
 typedef struct { Mass mass; Acceleration acceleration; } Force;                         // newtons (kg·m/s²)
 typedef struct { Force force; Length displacement; } Work;                              // joules (N·m)
-typedef struct { Work work; Time time; } Power;                                         // watts (J/s)
+typedef struct { Work work; Time time; } Power;  
+
+typedef struct {ld numerator; ld denominator;} fraction;
+
 
 #define LENGTH(m)         ((Length){ .length = (m) })
 #define TIME(s)           ((Time){ .time = (s) })
@@ -96,6 +99,9 @@ typedef struct { Work work; Time time; } Power;                                 
 #define centi (1/100) *
 #define milli (1/1000) *
 #define micro (1/1000000) *
+
+#define FRACTION(numerator, denominator) (fraction){numerator, denominator}
+#define FRACTION_VAL(fraction) (fraction.numerator / fraction.denominator)
 
 /// @brief Calculates the power of a number.
 /// @param base The base of the exponentiation.
@@ -161,4 +167,11 @@ Area area_circle(Length radius){// Calculates the area of a circle.
     if (radius.length > INT_MAX / PI) return (Area){0, 0}; // overflow
     Area result; result.length.length = sqrt( PI * square(radius.length)); result.breadth.length = sqrt( PI * square(radius.length)); 
     return result; // Area = PI * radius^2
+}
+
+/// @brief Calculates tne reciprocal of a fraction
+/// @param f The fraction to calculate the reciprocal of
+/// @return The reciprocal of the fraction
+fraction reciprocal(fraction f){
+    return FRACTION(f.denominator, f.numerator);
 }
