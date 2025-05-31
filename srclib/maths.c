@@ -27,9 +27,9 @@ typedef struct { Length length; Time time; } Speed;                             
 typedef struct { Length length; Time time; Time time2; } Acceleration;                  // m/s²
 typedef struct { Mass mass; Acceleration acceleration; } Force;                         // newtons (kg·m/s²)
 typedef struct { Force force; Length displacement; } Work;                              // joules (N·m)
-typedef struct { Work work; Time time; } Power;   
+typedef struct { Work work; Time time; } Power;          
 
-typedef struct {ld numerator; ld denominator} fraction;                                  // watts (J/s)
+typedef struct {ld numerator; ld denominator;} fraction;                               // watts (J/s)
 
 #define LENGTH(m)         ((Length){ .length = (m) })
 #define TIME(s)           ((Time){ .time = (s) })
@@ -113,8 +113,10 @@ typedef struct {ld numerator; ld denominator} fraction;                         
 #define FRACTION(numerator, denominator) (fraction){numerator, denominator}
 #define FRACTION_VAL(fraction) (fraction)(.numerator/.denominator)
 
-typedef struct{int b : 1} bit;
-typedef struct{int b0 : 1; b1 : 1; b2 : 1; b3 : 1; b4 : 1; b5 : 1; b6 : 1; b7 : 1;} byte;
+long double power(long base, long exp); // Function prototype for power calculation
+
+typedef struct{int b : 1;} bit;
+typedef struct{int b0 : 1; int b1 : 1; int b2 : 1; int b3 : 1; int b4 : 1; int b5 : 1; int b6 : 1; int b7 : 1;} byte;
 
 #define BIT(x) ((bit){ .b = (x) })
 #define setBIT(x, value) x.b = value

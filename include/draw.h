@@ -67,14 +67,14 @@ void draw_circle(int cx, int cy, int r, const char* ch) {
     while (x >= y) {
         // Fill horizontal lines between symmetrical points
         for (int i = -x/2; i <= x/2; i++) {
-            draw_pixel(cx + i, cy + y, ch);    // Fill bottom half
-            draw_pixel(cx + i, cy - y, ch);    // Fill top half
+            draw_pixel(cx + i, cy + y/2, ch);    // Fill bottom half (halved)
+            draw_pixel(cx + i, cy - y/2, ch);    // Fill top half (halved)
         }
         
         // Fill the middle section
         for (int i = -y/2; i <= y/2; i++) {
-            draw_pixel(cx + i, cy + x/2, ch);  // Fill right side
-            draw_pixel(cx + i, cy - x/2, ch);  // Fill left side
+            draw_pixel(cx + i, cy + x/4, ch);    // Fill right side (halved)
+            draw_pixel(cx + i, cy - x/4, ch);    // Fill left side (halved)
         }
 
         if (err <= 0) {
@@ -82,7 +82,7 @@ void draw_circle(int cx, int cy, int r, const char* ch) {
             err += 2*y + 1;
         }
         if (err > 0) {
-            x -= 2;  // Decrease x by 2 to maintain aspect ratio
+            x -= 2;
             err -= 2*x + 2;
         }
     }

@@ -33,10 +33,9 @@ typedef struct { Length length; Time time; } Speed;                             
 typedef struct { Length length; Time time; Time time2; } Acceleration;                  // m/s²
 typedef struct { Mass mass; Acceleration acceleration; } Force;                         // newtons (kg·m/s²)
 typedef struct { Force force; Length displacement; } Work;                              // joules (N·m)
-typedef struct { Work work; Time time; } Power;  
+typedef struct { Work work; Time time; } Power;                                         // watts (J/s)
 
 typedef struct {ld numerator; ld denominator;} fraction;
-
 
 #define LENGTH(m)         ((Length){ .length = (m) })
 #define TIME(s)           ((Time){ .time = (s) })
@@ -100,8 +99,60 @@ typedef struct {ld numerator; ld denominator;} fraction;
 #define milli (1/1000) *
 #define micro (1/1000000) *
 
+long double power(long base, long exp); // Calculates the power of a number.
+
+typedef struct{int b : 1;} bit;
+typedef struct {
+    unsigned int b0 : 1;
+    unsigned int b1 : 1;
+    unsigned int b2 : 1;
+    unsigned int b3 : 1;
+    unsigned int b4 : 1;
+    unsigned int b5 : 1;
+    unsigned int b6 : 1;
+    unsigned int b7 : 1;
+} byte;
+
+#define BIT(x) ((bit){ .b = (x) })
+#define setBIT(x, value) x.b = value
+
 #define FRACTION(numerator, denominator) (fraction){numerator, denominator}
 #define FRACTION_VAL(fraction) (fraction.numerator / fraction.denominator)
+
+/// @brief Calculates the value of a byte.
+/// @param b The byte to calculate the value of.
+/// @return An integer representing the value of the byte.
+/// @note This function uses bitwise operations to calculate the value of the byte.
+int valueOfByte(byte b) { // Returns the value of a byte.
+    int value = 0;
+    value += power(2, 0) * b.b0;
+    value += power(2, 1) * b.b1;
+    value += power(2, 2) * b.b2;
+    value += power(2, 3) * b.b3;
+    value += power(2, 4) * b.b4;
+    value += power(2, 5) * b.b5;
+    value += power(2, 6) * b.b6;
+    value += power(2, 7) * b.b7;
+    return value;
+}
+
+/// @brief Converts a character to its binary representation.
+/// @param num The character to convert.
+/// @return The binary representation of the character as a byte.
+/// @note This function uses bitwise operations to convert the character to binary.
+byte charInBinary(char num) { // Returns the number of bits in a number.
+    int val = num;
+    byte b;
+    b.b0 = abs((val & 0b10000000) >> 7);
+    b.b1 = abs((val & 0b01000000) >> 6);
+    b.b2 = abs((val & 0b00100000) >> 5);
+    b.b3 = abs((val & 0b00010000) >> 4);
+    b.b4 = abs((val & 0b00001000) >> 3);
+    b.b5 = abs((val & 0b00000100) >> 2);
+    b.b6 = abs((val & 0b00000010) >> 1);
+    b.b7 = abs(val & 0b00000001);
+    return b;
+}
 
 /// @brief Calculates the power of a number.
 /// @param base The base of the exponentiation.
